@@ -1,0 +1,287 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/clinicaltrial/!svn/ver/3/ClinicalRecuiter
+END
+main.m
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/main.m
+END
+ALPickerViewCell.m
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/ALPickerViewCell.m
+END
+SignUpView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/SignUpView.xib
+END
+DetailView.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/clinicaltrial/!svn/ver/11/ClinicalRecuiter/DetailView.h
+END
+LoginView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LoginView.xib
+END
+details.sqlite
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/details.sqlite
+END
+DAL.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/DAL.h
+END
+SignUpView.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/SignUpView.h
+END
+DetailView.m
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/clinicaltrial/!svn/ver/11/ClinicalRecuiter/DetailView.m
+END
+LoginView.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LoginView.h
+END
+DAL.m
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/DAL.m
+END
+SignUpView.m
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/SignUpView.m
+END
+AlertHandler.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/9/ClinicalRecuiter/AlertHandler.h
+END
+MainWindow.xib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/2/ClinicalRecuiter/MainWindow.xib
+END
+LoginView.m
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LoginView.m
+END
+checkTrue.png
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/checkTrue.png
+END
+AlertHandler.m
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/9/ClinicalRecuiter/AlertHandler.m
+END
+ClinicalRecuiter-Info.plist
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/ClinicalRecuiter-Info.plist
+END
+ClinicalRecuiter_Prefix.pch
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/ClinicalRecuiter_Prefix.pch
+END
+ALPickerView.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/ALPickerView.h
+END
+4-star-rating.png
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/4-star-rating.png
+END
+ALPickerView.m
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/ALPickerView.m
+END
+DetailViewController.xib
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/DetailViewController.xib
+END
+LocateClinicalTrail.xib
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LocateClinicalTrail.xib
+END
+myScrollView.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/myScrollView.h
+END
+ResetPassword.xib
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/clinicaltrial/!svn/ver/2/ClinicalRecuiter/ResetPassword.xib
+END
+DetailViewController.h
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/DetailViewController.h
+END
+SecondView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/SecondView.xib
+END
+NSString+Extensions.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/NSString+Extensions.h
+END
+LocateClinicalTrail.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LocateClinicalTrail.h
+END
+JoinAsPatient.xib
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/JoinAsPatient.xib
+END
+myScrollView.m
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/myScrollView.m
+END
+ResetPassword.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/ResetPassword.h
+END
+SecondView.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/clinicaltrial/!svn/ver/11/ClinicalRecuiter/SecondView.h
+END
+DetailViewController.m
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/DetailViewController.m
+END
+NSString+Extensions.m
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/NSString+Extensions.m
+END
+LocateClinicalTrail.m
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/LocateClinicalTrail.m
+END
+JoinAsPatient.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/JoinAsPatient.h
+END
+trial.png
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/trial.png
+END
+NSDataAdditions.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/NSDataAdditions.h
+END
+ResetPassword.m
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/ResetPassword.m
+END
+SecondView.m
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/SecondView.m
+END
+JoinAsPatient.m
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/clinicaltrial/!svn/ver/4/ClinicalRecuiter/JoinAsPatient.m
+END
+NSDataAdditions.m
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/NSDataAdditions.m
+END
+checkFalse.png
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/checkFalse.png
+END
+ALPickerViewCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/clinicaltrial/!svn/ver/8/ClinicalRecuiter/ALPickerViewCell.h
+END
+DetailView.xib
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/clinicaltrial/!svn/ver/10/ClinicalRecuiter/DetailView.xib
+END

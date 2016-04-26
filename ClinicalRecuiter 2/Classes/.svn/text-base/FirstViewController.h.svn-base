@@ -1,0 +1,25 @@
+//
+//  FirstViewController.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/19/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "DetailViewController.h"
+#import "LoginView.h"
+#import "ClinicalRecuiterAppDelegate.h"
+
+
+@interface FirstViewController : UIViewController <UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
+{
+	IBOutlet UISearchBar *srchBar;
+	IBOutlet UITableView *tblView;
+	ClinicalRecuiterAppDelegate *appDel;
+}
+
+@property (nonatomic ,retain) IBOutlet UISearchBar *srchBar;
+@property (nonatomic ,retain) IBOutlet UITableView *tblView;
+
+@end

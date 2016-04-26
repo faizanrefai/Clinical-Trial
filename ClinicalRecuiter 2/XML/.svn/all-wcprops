@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/XML
+END
+webService.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/clinicaltrial/!svn/ver/6/ClinicalRecuiter/XML/webService.h
+END
+WSPContinuous.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/clinicaltrial/!svn/ver/6/ClinicalRecuiter/XML/WSPContinuous.h
+END
+webService.m
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/clinicaltrial/!svn/ver/6/ClinicalRecuiter/XML/webService.m
+END
+WSPContinuous.m
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/clinicaltrial/!svn/ver/1/ClinicalRecuiter/XML/WSPContinuous.m
+END

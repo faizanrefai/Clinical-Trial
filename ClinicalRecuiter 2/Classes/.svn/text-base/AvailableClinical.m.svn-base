@@ -1,0 +1,116 @@
+//
+//  AvailableClinical.m
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "AvailableClinical.h"
+
+
+@implementation AvailableClinical
+@synthesize srchBar,tblView;
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	self.navigationItem.title = @"Clinical Trials";
+	
+	NSString *uid = [[NSUserDefaults standardUserDefaults] valueForKey:@"exp_Area"];
+	arrayNo = [[NSMutableArray alloc] initWithObjects:@"Cardiology/Vascular",@"Dental/Maxillofacial",@"Dermatology/Plastic",@"Endocrinology",@"Gastroenterology",@"Hematology",@"Immunology/ID",@"Internal Medicine",@"Musculoskeletal",@"Nephrology/Urology",@"Neurology",@"Ob/Gyn?Oncology",@"Opthalmology",@"Orthopedics",@"Otolaryngology",@"Pediatric/Neonate",@"Pharmacology/Tox",@"Podiatry",@"Psychiatry",@"Pulmonary",@"Rheumatology",@"Sleep Medicine",@"Trauma/Emergency",@"Healthy Patients",nil];	
+	NSArray *selectedTrails = [uid componentsSeparatedByString:@","];
+	
+	
+	finalArr = [[NSMutableArray alloc] init];
+	for (int j=0; j<[selectedTrails count]; j++)
+	{
+		[finalArr addObject:[arrayNo objectAtIndex:[[selectedTrails objectAtIndex:j]intValue]-1]];
+	}
+	NSLog(@"%@",finalArr);
+}
+
+
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+#pragma mark -
+#pragma mark Table view data source
+
+// Customize the number of sections in the table view.
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [finalArr count];
+}
+
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+	// Configure the cell.
+	NSString *str = [NSString stringWithFormat:@"%@",[finalArr objectAtIndex:indexPath.row]];
+	cell.textLabel.text=str;
+	
+    return cell;
+}
+
+#pragma mark -
+#pragma mark Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [srchBar resignFirstResponder];
+	clinicalDetail *obj = [[clinicalDetail alloc] initWithNibName:@"clinicalDetail" bundle:nil];
+	[self.navigationController pushViewController:obj animated:YES];
+	[obj release];
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	[srchBar resignFirstResponder];
+}
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

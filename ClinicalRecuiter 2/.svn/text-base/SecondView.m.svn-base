@@ -1,0 +1,481 @@
+    //
+//  SecondView.m
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/19/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "SecondView.h"
+#import "JSON.h"
+#import "AlertHandler.h"
+
+static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
+static const CGFloat MAXIMUM_SCROLL_FRACTION = 0.8;
+static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
+
+
+
+@implementation SecondView
+@synthesize rcUname,rcPassword,rcName,rcOverview,rcAdd1,rcAdd2,rcAdd3,rcBusinessNo,rcFaxNo,rcContactName,rcEmail1,rcEmail2,rcURL,rcArea,rcMobileNO,rcConfPass;
+@synthesize scrlView,pkrExpArea,isPatient,lblExp,btnPhoto,picker,imgPhoto;
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+/*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView {
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    [self.navigationController.navigationBar setHidden:NO];
+	scrlView.contentSize=CGSizeMake(320, 1450);
+	//rcXtraField1.hidden = TRUE;
+	arrayNo = [[NSMutableArray alloc] initWithObjects:@"Cardiology/Vascular",@"Dental/Maxillofacial",@"Dermatology/Plastic",@"Endocrinology",@"Gastroenterology",@"Hematology",@"Immunology/ID",@"Internal Medicine",@"Musculoskeletal",@"Nephrology/Urology",@"Neurology",@"Ob/Gyn?Oncology",@"Opthalmology",@"Orthopedics",@"Otolaryngology",@"Pediatric/Neonate",@"Pharmacology/Tox",@"Podiatry",@"Psychiatry",@"Pulmonary",@"Rheumatology",@"Sleep Medicine",@"Trauma/Emergency",@"Healthy Patients",nil];	
+
+	arr11 = [[NSMutableArray alloc] init];
+	pickerView = [[ALPickerView alloc] init];
+	pickerView.delegate = self;
+
+	entries = [[NSArray alloc] initWithArray:arrayNo];
+	selectionStates = [[NSMutableDictionary alloc] init];
+	
+	for (NSString *key in entries)
+		[selectionStates setObject:[NSNumber numberWithBool:NO] forKey:key];
+	
+	appDel = (ClinicalRecuiterAppDelegate *)[[UIApplication sharedApplication] delegate];
+	picker = [[UIImagePickerController alloc] init];
+	[picker setDelegate:self];
+	picker.allowsImageEditing = TRUE;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	
+	rcUname.text=@"";
+	rcPassword.text=@"";
+	rcConfPass.text=@"";
+	rcName.text=@"";
+	rcAdd1.text=@"";
+	rcAdd2.text=@"";
+	rcAdd3.text=@"";
+	rcContactName.text=@"";
+	rcBusinessNo.text=@"";
+	rcMobileNO.text=@"";
+	rcFaxNo.text=@"";
+	rcEmail1.text=@"";
+	rcEmail2.text=@"";
+	rcURL.text=@"";
+	[btnAreaExp setTitle:@"Select" forState:UIControlStateNormal];
+	
+	if (isPatient==TRUE)
+	{
+		[btnAreaExp setHidden:TRUE];
+		lblExp.hidden=TRUE;
+	}
+	else 
+	{
+		[btnAreaExp setHidden:FALSE];
+		lblExp.hidden=FALSE;
+	}
+}
+-(IBAction)addXtraField:(id)sender
+{
+	btnAddField.transform =  CGAffineTransformMakeTranslation(0, 28);
+	//rcXtraField1.hidden = FALSE;
+}
+
+-(IBAction)expAreaClicked:(id)sender
+{
+	pkrExpArea = [[UIPickerView alloc] init];
+	pkrExpArea.delegate=self;
+	pkrExpArea.dataSource=self;
+	[pkrExpArea setShowsSelectionIndicator:YES];
+	[pkrExpArea selectRow:1 inComponent:0 animated:NO];
+	[pkrExpArea setTag:1];
+	
+	UIActionSheet *ExpArea = [[UIActionSheet alloc] initWithTitle:@"Pickup Time\n\n\n\n\n\n\n\n\n\n\n\n" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Set" otherButtonTitles:nil];
+	ExpArea.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	[ExpArea setBounds:CGRectMake(0, 0, 320, 250)];
+	ExpArea.tag=1;
+	[ExpArea addSubview:pickerView];
+	[ExpArea showInView:self.tabBarController.tabBar];
+	[pkrExpArea reloadAllComponents];
+}
+#pragma mark -
+#pragma mark ALPickerView delegate methods
+
+- (NSInteger)numberOfRowsForPickerView:(ALPickerView *)pickerView {
+	return [entries count];
+}
+
+- (NSString *)pickerView:(ALPickerView *)pickerView textForRow:(NSInteger)row {
+	return [entries objectAtIndex:row];
+}
+
+- (BOOL)pickerView:(ALPickerView *)pickerView selectionStateForRow:(NSInteger)row {
+	
+	for (NSString *key in entries)
+    {
+        NSString *st = [NSString stringWithFormat:@"%@",[selectionStates objectForKey:key]];
+		
+        if([st isEqualToString:@"1"])
+		{
+			if(![arr11 containsObject:key])
+                [arr11 addObject:key];
+		}
+        
+        if([st isEqualToString:@"0"])
+        {
+            if([arr11 containsObject:key])
+                [arr11 removeObject:key];
+        }
+		
+    }
+	
+	return [[selectionStates objectForKey:[entries objectAtIndex:row]] boolValue];
+}
+
+- (void)pickerView:(ALPickerView *)pickerView didCheckRow:(NSInteger)row {
+	// Check whether all rows are checked or only one
+	if (row == -1)
+		for (id key in [selectionStates allKeys])
+			[selectionStates setObject:[NSNumber numberWithBool:YES] forKey:key];
+	else
+		[selectionStates setObject:[NSNumber numberWithBool:YES] forKey:[entries objectAtIndex:row]];
+	
+}
+
+- (void)pickerView:(ALPickerView *)pickerView didUncheckRow:(NSInteger)row {
+	// Check whether all rows are unchecked or only one
+	if (row == -1)
+		for (id key in [selectionStates allKeys])
+			[selectionStates setObject:[NSNumber numberWithBool:NO] forKey:key];
+	else
+		[selectionStates setObject:[NSNumber numberWithBool:NO] forKey:[entries objectAtIndex:row]];
+}
+
+
+
+-(IBAction)photoClicked: (id)sender
+{
+	UIActionSheet *photoAction = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo",@"Choose from Galery",nil];
+	[photoAction showInView:self.tabBarController.tabBar];
+	photoAction.tag=2;
+}
+
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (actionSheet.tag==1)
+	{
+		if (buttonIndex==0)
+		{
+			NSMutableArray *myseleEntry =[[NSMutableArray  alloc]init];
+			for (int i=0; i <[entries count]; i++)
+			{
+				NSString *myc_str =[entries objectAtIndex:i];
+				for(NSString *s in arr11){
+					if([s isEqualToString:myc_str])
+						[myseleEntry addObject:[NSString stringWithFormat:@"%d",i+1]];
+				}
+			}
+			
+			NSLog(@"%@",myseleEntry);
+			
+			NSString *str =@"";
+			for (int i=0; i<[myseleEntry count]; i++)
+			{
+				
+				if (i==[myseleEntry count]-1)
+				{
+					str = [str stringByAppendingString:[NSString stringWithFormat:@"%@",[myseleEntry objectAtIndex:i]]];
+				}
+				else
+				{
+					str = [str stringByAppendingString:[NSString stringWithFormat:@"%@,",[myseleEntry objectAtIndex:i]]];
+				}
+			}
+			countExpAre=[str copy];
+			NSLog(@"%@",countExpAre);
+			//strExpArea =[arrayNo objectAtIndex:[pkrExpArea selectedRowInComponent:0]];
+//			countExpAre = [[NSString alloc] initWithFormat:@"%d",[pkrExpArea selectedRowInComponent:0]];
+//			[btnAreaExp setTitle:strExpArea forState:UIControlStateNormal];
+		}
+	}
+	else if (actionSheet.tag==2)
+	{
+		if (buttonIndex==0)
+		{
+			picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+			[self presentModalViewController:picker animated:YES];
+		}
+		else if (buttonIndex==1)
+		{
+			picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+			[self presentModalViewController:picker animated:YES];
+		}
+	}
+}
+- (void)imagePickerController:(UIImagePickerController *)pickers didFinishPickingMediaWithInfo:(NSDictionary *)info
+{	
+    [picker dismissModalViewControllerAnimated:YES];
+    UIImage *img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    
+	[imgPhoto setImage:img];
+	
+	NSData *imgData =UIImageJPEGRepresentation(img, 0.45);
+	strImg = [[imgData base64Encoding] retain];
+}
+#pragma mark -
+#pragma mark Picker Methods
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView;
+{
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component;
+{
+	NSLog(@"%d",[arrayNo count]);
+    return [arrayNo count];
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView1 titleForRow:(NSInteger)row forComponent:(NSInteger)component;
+{
+	if (pickerView1.tag==1)
+	{
+		return [arrayNo objectAtIndex:row];
+	}
+	return nil;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView1 didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+	if (pickerView1.tag==1)
+	{
+		strExpArea = [[NSString alloc] initWithFormat:@"%@",[arrayNo objectAtIndex:row]];
+		countExpAre = [[NSString alloc] initWithFormat:@"%d",row];
+	}
+}
+
+-(IBAction)researchCancelclicked:(id)sender
+{
+
+}
+
+-(IBAction)researchAddClicked:(id)sender
+{
+	[AlertHandler showAlertForProcess];
+	if (isPatient==TRUE)
+	{
+		countExpAre = @"";
+	}
+	
+	NSString *photoName = [[NSString alloc] initWithFormat:@"%@.jpg",rcUname.text];
+	NSString *role = [[NSString alloc] initWithFormat:@"%@",[appDel.dictUserData valueForKey:@"role"]];
+	
+	NSString *c11 = (NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)strImg, NULL, CFSTR(":/?#[]@!$&’()*+,;="), kCFStringEncodingUTF8);
+
+	NSString *post =[NSString stringWithFormat:@"username=%@&password=%@&Confirm_password=%@&research_center_name=%@&overview=%@&center_photo=%@&address1=%@&address2=%@&address3=%@&business_number=%@&fax_number=%@&contact_name=%@&contact_email1=%@&contact_email2=%@&URL=%@&expertise_area=%@&mobile_number=%@&role=%@&center_status=%@&center_photo_code=%@",rcUname.text,rcPassword.text,rcConfPass.text,rcName.text,rcOverview.text,photoName,rcAdd1.text,rcAdd2.text,rcAdd3.text,rcBusinessNo.text,rcFaxNo.text,rcContactName.text,rcEmail1.text,rcEmail2.text,rcURL.text,countExpAre,rcMobileNO.text,role,@"Status",c11];
+    
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+    
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] init] autorelease];
+    [request setURL:[NSURL URLWithString:@"http://www.openxcellaus.info/clinical/registration.php"]];
+    [request setHTTPMethod:@"POST"];
+	[request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    NSError *error;
+    NSURLResponse *response;
+    NSData *uData=[NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *data=[[NSString alloc]initWithData:uData encoding:NSUTF8StringEncoding];
+	
+	NSMutableDictionary *temp = [data JSONValue];
+	
+
+	[AlertHandler hideAlert];	
+	NSString *msg = [temp valueForKey:@"msg"];
+	
+	if ([msg isEqualToString:@"Register successfully"])
+	{
+		NSString *userId = [[NSString alloc] initWithFormat:@"%@",[temp valueForKey:@"research_center_id"]];
+		[appDel.dictUserData setValue:userId forKey:@"uid"];
+		DetailView *objDetail = [[DetailView alloc] initWithNibName:@"DetailView" bundle:nil];
+		objDetail.isFromLogin=FALSE;
+		[self.navigationController pushViewController:objDetail animated:YES];
+		[objDetail release];
+	}
+	else
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+	}
+}
+
+-(IBAction)freeClicked:(id)sender
+{	
+	if ([btnFree isSelected])
+	{
+		[btnFree setSelected:NO];
+	}
+	else
+	{
+		[btnFree setSelected:YES];
+		[btn100 setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)oneClicked:(id)sender
+{
+	if ([btn100 isSelected])
+	{
+		[btn100 setSelected:NO];
+	}
+	else
+	{
+		[btn100 setSelected:YES];
+		[btnFree setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)threeClicked:(id)sender
+{
+	if ([btn300 isSelected])
+	{
+		[btn300 setSelected:NO];
+	}
+	else
+	{
+		[btn300 setSelected:YES];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)fiveClicked:(id)sender
+{
+	if ([btn500 isSelected])
+	{
+		[btn500 setSelected:NO];
+	}
+	else
+	{
+		[btn500 setSelected:YES];
+		[btn300 setSelected:NO];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+	}
+}
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[rcUname resignFirstResponder];
+	[rcPassword resignFirstResponder];
+	[rcName resignFirstResponder];
+	[rcOverview resignFirstResponder];
+	[rcAdd1 resignFirstResponder];
+	[rcAdd2 resignFirstResponder];
+    [rcAdd3 resignFirstResponder];
+	[rcBusinessNo resignFirstResponder];
+	[rcFaxNo resignFirstResponder];
+	[rcContactName resignFirstResponder];
+	[rcEmail1 resignFirstResponder];
+	[rcEmail2 resignFirstResponder];
+	[rcURL resignFirstResponder];
+    [rcArea resignFirstResponder];
+	[rcMobileNO resignFirstResponder];
+    [rcConfPass resignFirstResponder];
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return YES;
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	CGRect textFieldRect =[self.view.window convertRect:textField.bounds fromView:textField];
+	CGRect viewRect =[self.view.window convertRect:self.view.bounds fromView:self.view];
+	
+	CGFloat midline = textFieldRect.origin.y +1.0 * textFieldRect.size.height;
+	CGFloat numerator =midline - viewRect.origin.y- MINIMUM_SCROLL_FRACTION * viewRect.size.height;
+	CGFloat denominator =(MAXIMUM_SCROLL_FRACTION - MINIMUM_SCROLL_FRACTION)* viewRect.size.height;
+	CGFloat heightFraction = numerator / denominator;
+	
+	animatedDistance = floor(162.0 * heightFraction);
+	
+	CGRect viewFrame =scrlView.frame;
+	
+	viewFrame.origin.y -= animatedDistance;
+	
+	[UIScrollView beginAnimations:nil context:NULL];
+	[UIScrollView setAnimationBeginsFromCurrentState:YES];
+	[UIScrollView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
+	
+	[self.scrlView setFrame:viewFrame];
+	
+	[UIScrollView commitAnimations];
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+	CGRect viewFrame = scrlView.frame;
+	
+	//self.view.frame;
+	viewFrame.origin.y += animatedDistance;
+	
+	[UIScrollView beginAnimations:nil context:NULL];
+	[UIScrollView setAnimationBeginsFromCurrentState:YES];
+	[UIScrollView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
+	
+	[self.scrlView setFrame:viewFrame];
+	
+	[UIScrollView commitAnimations];
+}
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

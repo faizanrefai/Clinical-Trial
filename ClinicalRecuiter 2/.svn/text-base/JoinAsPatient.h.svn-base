@@ -1,0 +1,56 @@
+//
+//  JoinAsPatient.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "DAL.h"
+
+@interface JoinAsPatient : UIViewController < UIPickerViewDataSource,UIPickerViewDelegate,UIScrollViewDelegate,UITextViewDelegate,UIActionSheetDelegate,UITextFieldDelegate>
+{
+	IBOutlet UIButton *patBtnCancel;
+	IBOutlet UIButton *patBtnAdd;
+	IBOutlet UIButton *btnDOB;
+	IBOutlet UIButton *btnMediHistory;
+	NSMutableArray *pickeArray;
+	
+	IBOutlet UITextField *patName;
+	IBOutlet UITextField *patAdd;
+	IBOutlet UITextField *patMob;
+	IBOutlet UITextField *patEmail;
+	IBOutlet UIDatePicker *dtPicker;
+	IBOutlet UIPickerView *histPicker;
+	
+	IBOutlet UIView *conditionView;
+	IBOutlet UIScrollView *conditionScrollView;
+	IBOutlet UITextField *txtName;
+	IBOutlet UIButton *btnAgree;
+	
+	IBOutlet UILabel *lblMedi1;
+	IBOutlet UILabel *lblMedi2;
+	int mediCount;
+	
+	NSString *dateFromString;
+	DAL *objDal;
+	NSMutableDictionary *dictUserData;
+}
+@property (nonatomic,retain) IBOutlet UITextField *patName;
+@property (nonatomic,retain) IBOutlet UITextField *patAdd;
+@property (nonatomic,retain) IBOutlet UITextField *patMob;
+@property (nonatomic,retain) IBOutlet UITextField *patEmail;
+@property (nonatomic,retain) IBOutlet UIPickerView *histPicker;
+@property (nonatomic,retain) IBOutlet UIScrollView *conditionScrollView;
+@property (nonatomic,retain) IBOutlet UITextField *txtName;
+@property (nonatomic,retain) IBOutlet UILabel *lblMedi1;
+@property (nonatomic,retain) IBOutlet UILabel *lblMedi2;
+
+
+-(IBAction)patCancelclicked:(id)sender;
+-(IBAction)patAddClicked:(id)sender;
+-(IBAction)dateOfBirthClicked:(id)sender;
+-(IBAction)agreeClicked:(id)sender;
+-(IBAction)historyClicked:(id)sender;
+@end

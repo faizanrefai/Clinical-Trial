@@ -1,0 +1,39 @@
+//
+//  LocateClinicalTrail.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "FirstViewController.h"
+#import "LoginView.h"
+#import "ClinicalRecuiterAppDelegate.h"
+
+@interface LocateClinicalTrail : UIViewController <UITextFieldDelegate>
+{
+	//IBOutlet UIPickerView *pickr;
+	//IBOutlet UILabel *lblSelectedItem;
+	IBOutlet UITextField *txtSearch;
+	IBOutlet UITextField *txtGPS;
+	IBOutlet UITextField *txtMedical;
+	IBOutlet UITextField *txtZip;
+	IBOutlet UITextField *txtState;
+	IBOutlet UIButton *btnrcName;
+	IBOutlet UIButton *btnExpAre;
+	IBOutlet UIButton *btnLocation;
+	ClinicalRecuiterAppDelegate *appDel;
+}
+
+@property (nonatomic,retain) UITextField *txtSearch;
+@property (nonatomic,retain) IBOutlet UITextField *txtGPS;
+@property (nonatomic,retain) IBOutlet UITextField *txtMedical;
+@property (nonatomic,retain) IBOutlet UITextField *txtZip;
+@property (nonatomic,retain) IBOutlet UITextField *txtState;
+
+-(IBAction) researchClicked:(id)sender;
+-(IBAction) medicalClicked:(id)sender;
+-(IBAction) locationClicked:(id)sender;
+//-(IBAction) searchClicked:(id)sender;
+@end

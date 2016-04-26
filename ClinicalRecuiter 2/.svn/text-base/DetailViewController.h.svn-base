@@ -1,0 +1,31 @@
+//
+//  DetailViewController.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/19/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+#import "AddTestimonials.h"
+#import "AvailableClinical.h"
+#import "webService.h"
+#import "WSPContinuous.h"
+#import "AlertHandler.h"
+
+@interface DetailViewController : UIViewController <UITextViewDelegate,MFMailComposeViewControllerDelegate>
+{
+	//IBOutlet UIBarButtonItem *btnRight;
+	IBOutlet UIButton *btnTesti;
+	IBOutlet UIImageView *imgView;
+	IBOutlet UIButton *btnAvaClinic;
+	IBOutlet UITextView *txtView;
+	NSString *userID;
+	
+}
+@property (nonatomic,retain) UITextView *txtView;
+
+-(IBAction) addTestiPressed:(id)sender;
+-(IBAction)availableClinicPressed :(id)sender;
+@end

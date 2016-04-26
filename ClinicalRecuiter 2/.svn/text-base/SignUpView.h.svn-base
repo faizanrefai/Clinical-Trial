@@ -1,0 +1,85 @@
+//
+//  SignUpView.h
+//  EcoBurner
+//
+//  Created by apple on 8/9/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+
+@interface SignUpView : UIViewController <UIActionSheetDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+{
+ 	IBOutlet UITableView *tblView;
+	NSMutableArray *dataArray;
+	IBOutlet UIButton *btnOption;
+	
+	IBOutlet UIView *vwPatient;
+	IBOutlet UIButton *patBtnCancel;
+	IBOutlet UIButton *patBtnAdd;
+	IBOutlet UIButton *btnDOB;
+	
+	IBOutlet UIView *vwReCenter;
+	IBOutlet UIButton *researchBtnCancel;
+	IBOutlet UIButton *researchBtnAdd;
+	
+	IBOutlet UIButton *btnFree;
+	IBOutlet UIButton *btn100;
+	IBOutlet UIButton *btn300;
+	IBOutlet UIButton *btn500;
+	
+	BOOL isFree;
+	BOOL isHundred;
+	BOOL isThreeHun;
+	BOOL isFiveHun;
+	
+	IBOutlet UITextField *patName;
+	IBOutlet UITextField *patAdd;
+	IBOutlet UITextField *patMob;
+	IBOutlet UITextField *patEmail;
+	
+	IBOutlet UITextField *rcTitle;
+	IBOutlet UITextField *rcCriteria;
+	IBOutlet UITextField *rcDuration;
+	IBOutlet UITextField *rcCompen;
+	
+	IBOutlet UIDatePicker *dtPicker;
+	
+	NSString *dateFromString;
+	
+	
+	
+	
+}
+@property (nonatomic,retain) IBOutlet UITableView *tblView;
+@property (nonatomic,readwrite)BOOL isFree;
+@property (nonatomic,readwrite)BOOL isHundred;
+@property (nonatomic,readwrite)BOOL isThreeHun;
+@property (nonatomic,readwrite)BOOL isFiveHun;
+
+@property (nonatomic,retain) IBOutlet UITextField *patName;
+@property (nonatomic,retain) IBOutlet UITextField *patAdd;
+@property (nonatomic,retain) IBOutlet UITextField *patMob;
+@property (nonatomic,retain) IBOutlet UITextField *patEmail;
+
+@property (nonatomic,retain) IBOutlet UITextField *rcTitle;
+@property (nonatomic,retain) IBOutlet UITextField *rcCriteria;
+@property (nonatomic,retain) IBOutlet UITextField *rcDuration;
+@property (nonatomic,retain) IBOutlet UITextField *rcCompen;
+
+-(IBAction)optionBtnClicked:(id)sender;
+
+-(IBAction)patCancelclicked:(id)sender;
+-(IBAction)patAddClicked:(id)sender;
+-(IBAction)dateOfBirthClicked:(id)sender;
+
+-(IBAction)researchCancelclicked:(id)sender;
+-(IBAction)researchAddClicked:(id)sender;
+
+-(IBAction)freeClicked:(id)sender;
+-(IBAction)oneClicked:(id)sender;
+-(IBAction)threeClicked:(id)sender;
+-(IBAction)fiveClicked:(id)sender;
+//-(void)selectionMethod;
+@end

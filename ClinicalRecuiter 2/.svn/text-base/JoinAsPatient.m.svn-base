@@ -1,0 +1,204 @@
+//
+//  JoinAsPatient.m
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "JoinAsPatient.h"
+
+
+@implementation JoinAsPatient
+@synthesize patName,patAdd,patMob,patEmail,conditionScrollView,txtName,histPicker;
+@synthesize lblMedi1,lblMedi2;
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	conditionScrollView.contentSize=CGSizeMake(320, 1400);
+	conditionView.hidden=FALSE;
+		pickeArray = [[NSMutableArray alloc] init];
+	[pickeArray addObject:@"Medical History 1"];
+	[pickeArray addObject:@"Medical History 2"];
+	[pickeArray addObject:@"Medical History 3"];
+	[pickeArray addObject:@"Medical History 4"];
+	[pickeArray addObject:@"Medical History 5"];
+	
+	mediCount=0;
+	lblMedi1.hidden=TRUE;
+	lblMedi2.hidden=TRUE;
+	
+	objDal = [[DAL alloc] init];
+	[objDal initDatabase:@"details.sqlite"];
+	
+	
+	dictUserData = [[NSMutableDictionary alloc] init];
+}
+-(IBAction)historyClicked:(id)sender
+{
+	UIActionSheet *pickHistory = [[UIActionSheet alloc] initWithTitle:@"Pickup Time\n\n\n\n\n\n\n\n\n\n\n" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Set" otherButtonTitles:nil];
+	pickHistory.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	pickHistory.tag = 1;
+	[pickHistory setBounds:CGRectMake(0, 0, 320, 250)];
+	histPicker = [[UIPickerView alloc] init];
+	histPicker.delegate = self;
+	histPicker.dataSource = self;
+	histPicker.showsSelectionIndicator=TRUE;
+	//histPicker.frame = CGRectMake(0, 0, 320, 200);
+	[histPicker selectRow:1 inComponent:0 animated:NO];
+	//lblSelectedItem.text= [pickeArray objectAtIndex:[histPicker selectedRowInComponent:0]];
+	[pickHistory addSubview:histPicker];
+
+	//[self.view addSubview:histPicker];
+	[pickHistory showInView:self.view];
+	
+}
+-(IBAction)agreeClicked:(id)sender
+{
+	conditionView.hidden=TRUE;
+}
+-(IBAction)patCancelclicked:(id)sender
+{
+	
+}
+-(IBAction)patAddClicked:(id)sender
+{
+	[dictUserData setObject:@"" forKey:@"id"];
+	[dictUserData setObject:patName.text forKey:@"name"];
+	[dictUserData setObject:patAdd.text forKey:@"address"];
+	[dictUserData setObject:patMob.text forKey:@"number"];
+	[dictUserData setObject:patEmail.text forKey:@"email"];
+	[dictUserData setObject:dateFromString forKey:@"birthdate"];
+	[dictUserData setObject:lblMedi1.text forKey:@"medical_history"];
+	
+	
+	NSLog(@"%@",dictUserData);
+	[objDal insertRecord:dictUserData inTable:@"user_details"];
+	
+	patName.text=@"";
+	patAdd.text=@"";
+	patMob.text=@"";
+	patEmail.text=@"";
+	[btnDOB setTitle:@"Select" forState:UIControlStateNormal];
+	mediCount=0;
+	mediCount=0;
+	lblMedi1.hidden=TRUE;
+	lblMedi2.hidden=TRUE;
+}
+-(IBAction)dateOfBirthClicked:(id)sender
+{
+	UIActionSheet *pickTime = [[UIActionSheet alloc] initWithTitle:@"Pickup Time\n\n\n\n\n\n\n\n\n\n\n\n" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Set" otherButtonTitles:nil];
+	pickTime.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	pickTime.tag = 2;
+	[pickTime setBounds:CGRectMake(0, 0, 320, 250)];
+	dtPicker = [[UIDatePicker alloc] init];
+	dtPicker.datePickerMode = UIDatePickerModeDate;
+	dtPicker.maximumDate = [NSDate date];
+	[pickTime addSubview:dtPicker];
+	[pickTime showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (actionSheet.tag ==2)
+	{
+		if (buttonIndex == 0)
+		{
+			NSDate *tempDate = dtPicker.date;
+			NSDate *temp = [tempDate addTimeInterval:(1.0*60*60*24)];
+			NSLog(@"%@",temp);
+			NSDateFormatter *dateFormatter =[[NSDateFormatter alloc]init];
+			NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+			[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+			[dateFormatter setTimeZone:gmt];
+			
+			dateFromString = [[dateFormatter stringFromDate:temp]retain];
+			NSLog(@"%@",dateFromString);
+			//NSString *str = [NSString stringWithFormat:@"%@",dtPicker.date];
+			//		str = [[str componentsSeparatedByString:@" "] objectAtIndex:0];
+			[btnDOB setTitle:dateFromString forState:UIControlStateNormal];
+		}
+	}
+	else if(actionSheet.tag==1)
+	{
+		if (mediCount==0)
+		{
+			lblMedi1.hidden=FALSE;
+			lblMedi2.hidden=TRUE;
+			mediCount=1;
+		}
+		else if(mediCount==1)
+		{
+			lblMedi1.hidden=FALSE;
+			lblMedi2.hidden=FALSE;
+		}
+		
+	}
+	
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[patAdd resignFirstResponder];
+	[patName resignFirstResponder];
+	[patMob resignFirstResponder];
+	[patEmail resignFirstResponder];
+	return YES;
+}
+
+
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+	return 1;
+}
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+	return [pickeArray count];
+}
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+	return [pickeArray objectAtIndex:row];
+}
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
+{
+	
+}
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

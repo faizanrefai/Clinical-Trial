@@ -1,0 +1,255 @@
+//
+//  SignUpView.m
+//  EcoBurner
+//
+//  Created by apple on 8/9/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "SignUpView.h"
+
+
+@implementation SignUpView
+@synthesize tblView;
+@synthesize isFree,isHundred,isThreeHun,isFiveHun,patName,patAdd,patMob,patEmail,rcTitle,rcCriteria,rcDuration,rcCompen;
+// The desigisHundred;nated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*isThreeHun;
+- (id)initWiisFiveHun;thNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+	self.title = @"Sign Up";
+    [super viewDidLoad];
+	//[picker setFrame:CGRectMake(45, 0, 210, 50)];
+	dataArray = [[NSMutableArray alloc] initWithObjects:@"Patient",@"Research Center",nil];
+	tblView.hidden=TRUE;
+	vwPatient.hidden =TRUE;
+	vwReCenter.hidden=TRUE;
+	//btnOption.titleLabel.textAlignment = UITextAlignmentCenter;
+	btnOption.titleLabel.text = @"Patient";
+	
+	
+	
+	isFree=FALSE;
+	isHundred=FALSE;
+	isThreeHun=FALSE;
+	isFiveHun=FALSE;
+}
+-(IBAction)optionBtnClicked:(id)sender
+{
+	tblView.hidden =FALSE;
+}
+-(IBAction)dateOfBirthClicked:(id)sender
+{
+	UIActionSheet *pickTime = [[UIActionSheet alloc] initWithTitle:@"Pickup Time\n\n\n\n\n\n\n\n\n\n\n\n" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Set" otherButtonTitles:nil];
+	pickTime.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	[pickTime setBounds:CGRectMake(0, 0, 320, 250)];
+	dtPicker = [[UIDatePicker alloc] init];
+	dtPicker.datePickerMode = UIDatePickerModeDate;
+	dtPicker.maximumDate = [NSDate date];
+	[pickTime addSubview:dtPicker];
+	[pickTime showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (buttonIndex == 0)
+	{
+		NSDate *tempDate = dtPicker.date;
+		NSDate *temp = [tempDate addTimeInterval:(1.0*60*60*24)];
+		NSLog(@"%@",temp);
+		NSDateFormatter *dateFormatter =[[NSDateFormatter alloc]init];
+		NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+		[dateFormatter setDateFormat:@"yyyy-MM-dd"];
+		[dateFormatter setTimeZone:gmt];
+		
+		dateFromString = [[dateFormatter stringFromDate:temp]retain];
+		NSLog(@"%@",dateFromString);
+		//NSString *str = [NSString stringWithFormat:@"%@",dtPicker.date];
+//		str = [[str componentsSeparatedByString:@" "] objectAtIndex:0];
+		[btnDOB setTitle:dateFromString forState:UIControlStateNormal];
+	}
+}
+
+#pragma mark -
+#pragma mark Table view data source
+
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+	// Configure the cell.
+	cell.textLabel.text=[dataArray objectAtIndex:indexPath.row];
+    return cell;
+}
+
+
+#pragma mark -
+#pragma mark Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+	tblView.hidden = TRUE;
+	if (indexPath.row==0)
+	{
+		vwPatient.hidden=FALSE;
+		vwReCenter.hidden=TRUE;
+		//btnOption.titleLabel.text = @"Patient";
+		[btnOption setTitle:@"Patient" forState:UIControlStateNormal];
+		btnOption.enabled = FALSE;
+		
+	}
+	else if(indexPath.row==1)
+	{
+		vwPatient.hidden=TRUE;
+		vwReCenter.hidden=FALSE;
+		//btnOption.titleLabel.text = @"Research Center";
+		
+		[btnOption setTitle:@"Research Center" forState:UIControlStateNormal];
+		btnOption.enabled = FALSE;
+	}
+}
+-(IBAction)patCancelclicked:(id)sender
+{
+	vwPatient.hidden=TRUE;
+	btnOption.enabled = TRUE;
+}
+-(IBAction)patAddClicked:(id)sender
+{
+	vwPatient.hidden=TRUE;
+	btnOption.enabled = TRUE;
+	
+	
+}
+
+-(IBAction)researchCancelclicked:(id)sender
+{
+	vwReCenter.hidden=TRUE;
+	btnOption.enabled = TRUE;
+}
+
+-(IBAction)researchAddClicked:(id)sender
+{
+	vwReCenter.hidden=TRUE;
+	btnOption.enabled = TRUE;
+}
+
+-(IBAction)freeClicked:(id)sender
+{	
+	if ([btnFree isSelected])
+	{
+		[btnFree setSelected:NO];
+	}
+	else
+	{
+		[btnFree setSelected:YES];
+		[btn100 setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)oneClicked:(id)sender
+{
+	if ([btn100 isSelected])
+	{
+		[btn100 setSelected:NO];
+	}
+	else
+	{
+		[btn100 setSelected:YES];
+		[btnFree setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)threeClicked:(id)sender
+{
+	if ([btn300 isSelected])
+	{
+		[btn300 setSelected:NO];
+	}
+	else
+	{
+		[btn300 setSelected:YES];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)fiveClicked:(id)sender
+{
+	if ([btn500 isSelected])
+	{
+		[btn500 setSelected:NO];
+	}
+	else
+	{
+		[btn500 setSelected:YES];
+		[btn300 setSelected:NO];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+	}
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[patAdd resignFirstResponder];
+	[patName resignFirstResponder];
+	[patMob resignFirstResponder];
+	[patEmail resignFirstResponder];
+	
+	[rcTitle resignFirstResponder];
+	[rcDuration resignFirstResponder];
+	[rcCriteria resignFirstResponder];
+	[rcCompen resignFirstResponder];
+	return YES;
+}
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

@@ -1,0 +1,214 @@
+    //
+//  SecondView.m
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/19/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "SecondView.h"
+
+
+@implementation SecondView
+@synthesize rcUname,rcPassword,rcName,rcOverview,rcPhoto,rcAdd1,rcAdd2,rcAdd3,rcBusinessNo,rcFaxNo,rcContactName,rcEmail1,rcEmail2,rcURL,rcArea,rcMobileNO,rcconfpass;
+@synthesize scrlView;
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+/*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView {
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+    [super viewDidLoad];
+    [self.navigationController.navigationBar setHidden:NO];
+	scrlView.contentSize=CGSizeMake(320, 1100);
+	//rcXtraField1.hidden = TRUE;
+	
+}
+-(IBAction)addXtraField:(id)sender
+{
+	btnAddField.transform =  CGAffineTransformMakeTranslation(0, 28);
+	//rcXtraField1.hidden = FALSE;
+}
+-(IBAction)researchCancelclicked:(id)sender
+{
+
+}
+
+-(IBAction)researchAddClicked:(id)sender
+{
+   
+    [self GDATA];
+
+	//[self performSelectorInBackground:@selector(RegisterInfo) withObject:nil];
+}
+-(void)RegisterInfo
+{
+    //NSAutoreleasePool *pool=[[NSAutoreleasePool alloc]init];
+    urlstring = [NSString stringWithFormat:@"http://www.openxcellaus.info/clinical/registration.php?username=%@&password=%@&research_center_name=%@&overview=%@&center_photo=%@&address1=%@&address2=%@&address3=%@&business_number=%@&fax_number=%@&contact_name=%@&contact_email1=%@&contact_email2=%@&URL=%@&expertise_area=%@&mobile_number=%@",rcUname.text,rcPassword.text,rcName.text,rcOverview.text,rcPhoto.text,rcAdd1.text,rcAdd2.text,rcAdd3.text,rcBusinessNo.text,rcFaxNo.text,rcContactName.text,rcEmail1.text,rcEmail2.text,rcURL.text,rcArea.text,rcMobileNO.text];
+    url = [NSURL URLWithString:[urlstring stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSLog(@"%@",url);
+    
+  //  [self GDATA:url];
+    
+    //NSString  *jsonRes = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+   // NSLog(@"%@",jsonRes);
+
+    //[pool release];
+
+   
+}
+-(void)GDATA{
+	
+    // urlstring = ;
+	GdataParser *parser = [[GdataParser alloc] init];
+	[parser downloadAndParse:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.openxcellaus.info/clinical/registration.php?username=%@&password=%@&research_center_name=%@&overview=%@&center_photo=%@&address1=%@&address2=%@&address3=%@&business_number=%@&fax_number=%@&contact_name=%@&contact_email1=%@&contact_email2=%@&URL=%@&expertise_area=%@&mobile_number=%@",rcUname.text,rcPassword.text,rcName.text,rcOverview.text,rcPhoto.text,rcAdd1.text,rcAdd2.text,rcAdd3.text,rcBusinessNo.text,rcFaxNo.text,rcContactName.text,rcEmail1.text,rcEmail2.text,rcURL.text,rcArea.text,rcMobileNO.text]]  
+    
+//    [parser downloadAndParse:url1  
+				 withRootTag:@"Record"
+					withTags:[NSDictionary dictionaryWithObjectsAndKeys:@"research_center_id",@"research_center_id",nil] 
+						 sel:@selector(finishGetData:) 
+				  andHandler:self];
+    
+	/*
+     TBxmlParser *parser = [[TBxmlParser alloc] init];
+     [parser downloadAndParse:[NSURL URLWithString:@"http://openxcellaus.info/krupal_webservices_test/taxiApp/pull_Data.php?currentLat=11.11&currentLon=10.10"] 
+     withRootTag:@"Record"
+     withTags:[NSDictionary dictionaryWithObjectsAndKeys:@"reqID",@"reqID",@"currentLat",@"currentLat",nil] 
+     sel:@selector(finishGetData:) 
+     andHandler:self];
+     */
+}
+-(void)finishGetData:(NSDictionary*)dictionary{
+	//NSTimeInterval timePassed_ms1 = [NSDate timeIntervalSinceReferenceDate] - start1;
+	//time.text=[NSString stringWithFormat:@"%f",timePassed_ms1];
+    NSLog(@"%@",dictionary);
+    NSLog(@"%d",[[[[dictionary valueForKey:@"array"] objectAtIndex:0] valueForKey:@"research_center_id"] intValue]);
+    [[NSUserDefaults standardUserDefaults] setInteger:[[[[dictionary valueForKey:@"array"] objectAtIndex:0] valueForKey:@"research_center_id"] intValue] forKey:@"research_center_id"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
+-(IBAction)freeClicked:(id)sender
+{	
+	if ([btnFree isSelected])
+	{
+		[btnFree setSelected:NO];
+	}
+	else
+	{
+		[btnFree setSelected:YES];
+		[btn100 setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)oneClicked:(id)sender
+{
+	if ([btn100 isSelected])
+	{
+		[btn100 setSelected:NO];
+	}
+	else
+	{
+		[btn100 setSelected:YES];
+		[btnFree setSelected:NO];
+		[btn300 setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)threeClicked:(id)sender
+{
+	if ([btn300 isSelected])
+	{
+		[btn300 setSelected:NO];
+	}
+	else
+	{
+		[btn300 setSelected:YES];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+		[btn500 setSelected:NO];
+	}
+}
+-(IBAction)fiveClicked:(id)sender
+{
+	if ([btn500 isSelected])
+	{
+		[btn500 setSelected:NO];
+	}
+	else
+	{
+		[btn500 setSelected:YES];
+		[btn300 setSelected:NO];
+		[btn100 setSelected:NO];
+		[btnFree setSelected:NO];
+	}
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+
+	[rcUname resignFirstResponder];
+	[rcPassword resignFirstResponder];
+	[rcName resignFirstResponder];
+	[rcOverview resignFirstResponder];
+	[rcPhoto resignFirstResponder];
+	[rcAdd1 resignFirstResponder];
+	[rcAdd2 resignFirstResponder];
+    [rcAdd3 resignFirstResponder];
+	[rcBusinessNo resignFirstResponder];
+	[rcFaxNo resignFirstResponder];
+	[rcContactName resignFirstResponder];
+	[rcEmail1 resignFirstResponder];
+	[rcEmail2 resignFirstResponder];
+	[rcURL resignFirstResponder];
+    [rcArea resignFirstResponder];
+	[rcMobileNO resignFirstResponder];
+    [rcconfpass resignFirstResponder];
+	
+	return YES;
+}
+
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

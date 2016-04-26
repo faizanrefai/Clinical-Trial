@@ -1,0 +1,24 @@
+//
+//  ClinicalRecuiterAppDelegate.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/19/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface ClinicalRecuiterAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+    UIWindow *window;
+    UITabBarController *tabBarController;
+	NSString *databasePath;
+	
+	NSMutableDictionary *dictUserData;
+	NSMutableArray *arrSearchData;
+}
+@property (nonatomic,retain) NSMutableArray *arrSearchData;
+@property (nonatomic,retain) NSMutableDictionary *dictUserData;
+@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+-(void) checkAndCreateDatabase;
+@end

@@ -1,0 +1,29 @@
+<subtitle>Promotional Free Plan</subtitle>
+
+<_bullet>List your center and 3 clinical trials for free*</_bullet>
+<_bullet>Receive direct subject referrals from CTR website and app</_bullet>
+<_bullet>Free members are listed below paid members</_bullet>
+<_bullet>Center contact information is not available for viewing</_bullet>
+<_bullet>Limited to 3 free trial listings per center for 1 full year</_bullet>
+<_bullet>Center contact information is not available for viewing</_bullet>
+
+* Free members are listed below paid members in search results.
+
+<subtitle>Monthly Plan</subtitle>
+
+<_bullet>Center is highlighted and listed at top of search results for region *</_bullet>
+<_bullet>Receive direct subject referrals from CTR website and app</_bullet>
+<_bullet>Contact information including center address, telephone, fax and email are available for viewing</_bullet>
+<_bullet>Unlimited clinical trial listings for 1 full month</_bullet>
+
+* Listing position among paid members is based on a first come basis in their region for members in good standing.
+
+<subtitle>Yearly Plan</subtitle>
+
+<_bullet>Center is highlighted and listed at top of search results for region*</_bullet>
+<_bullet>Receive direct subject referrals from CTR website and app</_bullet>
+<_bullet>Contact information including center address, telephone, fax and email are available for viewing</_bullet>
+<_bullet>Unlimited clinical trial listings for 1 full year</_bullet>
+<_bullet>Save $100 off the monthly subscription when you subscribe for the entire year</_bullet>
+
+* Listing position among paid members is based on a first come basis in their region for members in good standing.

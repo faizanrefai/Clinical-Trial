@@ -1,0 +1,102 @@
+//
+//  DetailView.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 12/2/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "webService.h"
+#import "WSPContinuous.h"
+#import "myScrollView.h"
+#import "ClinicalRecuiterAppDelegate.h"
+#import "DetailView.h"
+#import "ALPickerView.h"
+
+@interface DetailView : UIViewController <UITextViewDelegate,ALPickerViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
+{
+	ALPickerView *pickerView;
+	ClinicalRecuiterAppDelegate *appDel;
+	
+	IBOutlet myScrollView *scrlView;
+	IBOutlet UIButton *researchBtnAdd;
+	IBOutlet UIButton *btnFree;
+	IBOutlet UIButton *btn100;
+	IBOutlet UIButton *btn300;
+	IBOutlet UIButton *btn500;
+	IBOutlet UIButton *btnAddField;
+	IBOutlet UIButton *btnPhoto;
+	
+	IBOutlet UITextView *txtExpAre;
+	
+	IBOutlet UITextField *rcUname;
+	IBOutlet UITextField *rcName;
+	IBOutlet UITextField *rcOverview;
+	IBOutlet UITextField *rcAdd1;
+	IBOutlet UITextField *rcAdd2;
+	IBOutlet UITextField *rcAdd3;
+    IBOutlet UITextField *rcBusinessNo;
+	IBOutlet UITextField *rcFaxNo;
+	IBOutlet UITextField *rcContactName;
+	IBOutlet UITextField *rcEmail1;
+    IBOutlet UITextField *rcEmail2;
+	IBOutlet UITextField *rcURL;
+	IBOutlet UITextField *rcArea;
+	IBOutlet UITextField *rcMobileNO;
+	IBOutlet UILabel *lblExpArea;
+	IBOutlet UIButton *btnAreaExp;
+	
+	NSArray *entries;
+	NSMutableArray *arrayNo;
+	NSMutableArray *arr11;
+    NSURL *url;
+    NSString * urlstring;
+	NSMutableDictionary *selectionStates;
+	
+	BOOL isEdit;
+	BOOL isFromLogin;
+ 	IBOutlet UIPickerView *pkrExpArea;
+	
+	NSString *strExpArea;
+	NSString *countExpAre;
+	NSString *userID;
+	NSString *strImg;
+	UIImagePickerController *picker;
+	CGFloat animatedDistance;
+	
+	IBOutlet UIBarButtonItem *rightBtn;
+	IBOutlet UIBarButtonItem *BtnLogout;
+	IBOutlet UIImageView *imgPhoto;
+}
+@property (nonatomic,retain) UITextView *txtExpAre;
+@property (nonatomic,retain) UIImageView *imgPhoto;
+@property (nonatomic,retain) UIImagePickerController *picker;
+@property (nonatomic,retain) UIButton *btnPhoto;
+@property (nonatomic,assign) UILabel *lblExpArea;
+@property (nonatomic,assign) BOOL isFromLogin;
+@property (nonatomic,retain) UIPickerView *pkrExpArea;
+@property (nonatomic,retain) IBOutlet UITextField *rcUname;
+@property (nonatomic,retain) IBOutlet UITextField *rcName;
+@property (nonatomic,retain) IBOutlet UITextField *rcOverview;
+@property (nonatomic,retain) IBOutlet UITextField *rcAdd1;
+@property (nonatomic,retain) IBOutlet UITextField *rcAdd2;
+@property (nonatomic,retain) IBOutlet UITextField *rcAdd3;
+@property (nonatomic,retain) IBOutlet UITextField *rcBusinessNo;
+@property (nonatomic,retain) IBOutlet UITextField *rcFaxNo;
+@property (nonatomic,retain) IBOutlet UITextField *rcContactName;
+@property (nonatomic,retain) IBOutlet UITextField *rcEmail1;
+@property (nonatomic,retain) IBOutlet UITextField *rcEmail2;
+@property (nonatomic,retain) IBOutlet UITextField *rcURL;
+@property (nonatomic,retain) IBOutlet UITextField *rcArea;
+@property (nonatomic,retain) IBOutlet UITextField *rcMobileNO;
+@property (nonatomic,retain) IBOutlet UIScrollView *scrlView;
+
+
+//-(IBAction)researchCancelclicked:(id)sender;
+-(IBAction)researchAddClicked:(id)sender;
+-(IBAction)expAreaClicked:(id)sender;
+//-(IBAction)editClicked:(id)sender;
+-(IBAction)logoutClicked :(id)sender;
+-(IBAction)photoClicked: (id)sender;
+@end

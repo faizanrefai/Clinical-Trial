@@ -1,0 +1,187 @@
+//
+//  LocateClinicalTrail.m
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "LocateClinicalTrail.h"
+#import "AlertHandler.h"
+
+@implementation LocateClinicalTrail
+@synthesize txtGPS,txtMedical,txtZip,txtState,txtSearch;
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad {
+    [super viewDidLoad];
+	
+	//LoginView *obj = [[LoginView alloc] initWithNibName:@"LoginView" bundle:nil];
+//	UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:obj];
+//		
+//	//[self.navigationController presentModalViewController:navi animated:YES];
+//	[self presentModalViewController:navi animated:YES];
+	
+	appDel = (ClinicalRecuiterAppDelegate*)[[UIApplication sharedApplication] delegate];
+	
+	self.navigationController.navigationBarHidden = FALSE;
+	self.navigationItem.title = @"Locate a Clinical Trial";
+	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	//pickr.frame= CGRectMake(0,0, 320, 140);
+//	arrayNo = [[NSMutableArray alloc] init];
+//    [arrayNo addObject:@" Medical Condition "];
+//    [arrayNo addObject:@" State "];
+//    [arrayNo addObject:@" Zip code "];
+//    [arrayNo addObject:@" GPS "];
+//	
+//    [pickr selectRow:1 inComponent:0 animated:NO];
+//    lblSelectedItem.text= [arrayNo objectAtIndex:[pickr selectedRowInComponent:0]];
+	
+	
+	//self.navigationController.navigationBarHidden = FALSE;
+//	self.navigationItem.title =@"Locate a Clinical Trial";
+}
+
+
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+
+-(IBAction) researchClicked:(id)sender
+{
+	[txtSearch resignFirstResponder];
+	if ([btnrcName isSelected])
+	{
+		[btnrcName setSelected:NO];
+	}
+	else
+	{
+		[btnrcName setSelected:YES];
+		[btnExpAre setSelected:NO];
+		[btnLocation setSelected:NO];
+	}
+		
+	[AlertHandler showAlertForProcess];
+	WSPContinuous *wspcontinuous;
+	wspcontinuous = [[WSPContinuous alloc] initWithRequestForThread:[webService getURq_getansascreen:[webService getWS_searchByCenter:txtSearch.text]] 
+															rootTag:@"Record" 
+														startingTag:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+														  endingTag:[NSDictionary dictionaryWithObjectsAndKeys:@"research_center_id",@"research_center_id",@"username",@"username",@"msg",@"msg",nil] 
+														  otherTags:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+																sel:@selector(searchClicked:) 
+														 andHandler:self];
+}
+-(IBAction) medicalClicked:(id)sender
+{
+	[txtSearch resignFirstResponder];
+	if ([btnExpAre isSelected])
+	{
+		[btnExpAre setSelected:NO];
+	}
+	else
+	{
+		[btnExpAre setSelected:YES];
+		[btnrcName setSelected:NO];
+		[btnLocation setSelected:NO];
+	}
+	
+	[AlertHandler showAlertForProcess];
+	WSPContinuous *wspcontinuous;
+	wspcontinuous = [[WSPContinuous alloc] initWithRequestForThread:[webService getURq_getansascreen:[webService getWS_searchByExpArea:txtSearch.text]] 
+															rootTag:@"Record" 
+														startingTag:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+														  endingTag:[NSDictionary dictionaryWithObjectsAndKeys:@"research_center_id",@"research_center_id",@"username",@"username",@"msg",@"msg",nil] 
+														  otherTags:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+																sel:@selector(searchClicked:) 
+														 andHandler:self];
+}
+-(IBAction) locationClicked:(id)sender
+{
+	[txtSearch resignFirstResponder];
+	
+	if ([btnLocation isSelected])
+	{
+		[btnLocation setSelected:NO];
+	}
+	else
+	{
+		[btnLocation setSelected:YES];
+		[btnrcName setSelected:NO];
+		[btnExpAre setSelected:NO];
+	}
+}
+
+-(void)searchClicked:(NSDictionary*)dictionary
+{
+	[AlertHandler hideAlert];
+	appDel.arrSearchData = [dictionary valueForKey:@"array"];
+	
+	//NSLog(@"%@",[appDel.arrSearchData objectAtIndex:0]);
+	if ([dictionary allKeys]==0)
+	{
+	}
+	else
+	{
+		NSString *msg = [[[dictionary valueForKey:@"array"] objectAtIndex:0] valueForKey:@"msg"];
+		if (msg==nil)
+		{
+			FirstViewController *objFirst = [[FirstViewController alloc] initWithNibName:@"FirstViewController" bundle:nil];
+			[self.navigationController pushViewController:objFirst animated:YES];
+			[objFirst release];
+		}
+		else
+		{
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+		}
+	}
+		
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return YES;
+}
+
+
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

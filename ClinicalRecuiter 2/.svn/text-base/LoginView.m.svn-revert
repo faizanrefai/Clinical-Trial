@@ -1,0 +1,258 @@
+//
+//  LoginView.m
+//  EcoBurner
+//
+//  Created by apple on 8/9/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "LoginView.h"
+#import "AlertHandler.h"
+
+@implementation LoginView
+@synthesize nameField,passField,getDataArray,dataDict,btnProfe,btnPatient;
+
+// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+/*
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization.
+    }
+    return self;
+}
+*/
+
+
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad 
+{
+	self.navigationItem.title = @"Login";
+	
+	appDel = (ClinicalRecuiterAppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.navigationController.navigationBarHidden = FALSE;
+
+
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+    [backButton release];
+	
+	obj = [[SecondView alloc] initWithNibName:@"SecondView" bundle:nil];
+	dataDict = [[NSMutableDictionary alloc] init];
+	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+
+    [super viewDidLoad];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:YES];
+	nameField.text=@"";
+	passField.text=@"";
+}
+/*
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations.
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+*/
+-(IBAction) rememberClicked :(id)sender
+{
+	if ([btnRemember isSelected])
+	{
+		[btnRemember setSelected:NO];
+	}
+	else
+	{
+		[btnRemember setSelected:YES];
+	}
+}
+
+-(IBAction) investigatorClicked:(id)sender
+{
+	obj.isPatient = FALSE;
+
+	if ([btnProfe isSelected])
+	{
+		[btnProfe setSelected:NO];
+	}
+	else
+	{
+		[btnProfe setSelected:YES];
+		[btnPatient setSelected:NO];
+	}
+
+	
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sponsor/CRO",@"Investigator center",nil];
+	action.tag=1;
+	action.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	[action showInView:self.tabBarController.tabBar];
+	
+	[appDel.dictUserData setValue:@"Investigator Center" forKey:@"role"];
+}
+-(IBAction) sponcerClicked:(id)sender
+{
+	[appDel.dictUserData setValue:@"Sponcer" forKey:@"role"];
+}
+-(IBAction) paticipentClicked:(id)sender
+{
+	if ([btnPatient isSelected])
+	{
+		[btnPatient setSelected:NO];
+	}
+	else
+	{
+		[btnPatient setSelected:YES];
+		[btnProfe setSelected:NO];
+	}
+	
+	obj.isPatient= TRUE;
+	[appDel.dictUserData setValue:@"Participants" forKey:@"role"];
+	UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Sign Up",nil];
+	action.tag=2;
+	action.actionSheetStyle = UIActionSheetStyleBlackOpaque;
+	[action showInView:self.tabBarController.tabBar];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (actionSheet.tag==1)
+	{
+		if (buttonIndex==0)
+		{
+			obj.isPatient = TRUE;
+			[self.navigationController pushViewController:obj animated:YES];
+		}
+		else if (buttonIndex==1) 
+		{
+			obj.isPatient = FALSE;
+			[self.navigationController pushViewController:obj animated:YES];
+		}
+	}
+	else if (actionSheet.tag==2)
+	{ 
+		if (buttonIndex==0)
+		{
+			[self.navigationController pushViewController:obj animated:YES];
+		}
+	}
+
+}
+
+//-(IBAction) signupClicked:(id)sender
+//{
+//	[self.navigationController pushViewController:obj animated:YES];
+//}
+
+-(IBAction) resetPassword:(id)sender
+{
+	
+	ResetPassword *ResetPassObj = [[ResetPassword alloc] initWithNibName:@"ResetPassword" bundle:nil];
+	[self.navigationController pushViewController:ResetPassObj animated:YES];
+}
+
+-(IBAction) loginClicked:(id)sender
+{
+	[nameField resignFirstResponder];
+	[passField resignFirstResponder];
+	
+	[AlertHandler showAlertForProcess];
+	WSPContinuous *wspcontinuous;
+	wspcontinuous = [[WSPContinuous alloc] initWithRequestForThread:[webService getURq_getansascreen:[webService getWS_login:nameField.text :passField.text]] 
+															rootTag:@"Record" 
+														startingTag:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+														  endingTag:[NSDictionary dictionaryWithObjectsAndKeys:@"research_center_id",@"research_center_id",@"msg",@"msg",nil] 
+														  otherTags:[NSDictionary dictionaryWithObjectsAndKeys:nil] 
+																sel:@selector(finisheParsing:) 
+														 andHandler:self];
+	
+}
+
+-(void)finisheParsing:(NSDictionary*)dictionary
+{
+	[AlertHandler hideAlert];
+	NSLog(@"%@",dictionary);
+	
+	NSString *msg = [[[dictionary valueForKey:@"array"] objectAtIndex:0] valueForKey:@"msg"];
+	
+	
+	if ([msg isEqualToString:@"Login successful"])
+	{
+		NSString *userId = [[NSString alloc] initWithFormat:@"%@",[[[dictionary valueForKey:@"array"] objectAtIndex:0] valueForKey:@"research_center_id"]];
+		[appDel.dictUserData setValue:userId forKey:@"uid"];
+		DetailView *objDetail = [[DetailView alloc] initWithNibName:@"DetailView" bundle:nil];
+		
+		objDetail.isFromLogin=TRUE;
+		UINavigationController *naviCOntroller = [[UINavigationController alloc] initWithRootViewController:objDetail];
+		naviCOntroller.navigationBar.tintColor=[UIColor blackColor];
+		[self.navigationController presentModalViewController:naviCOntroller animated:YES];
+		[objDetail release];
+	}
+	else
+	{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:msg message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		[alert show];
+		[alert release];
+	}
+}
+-(IBAction) doneClicked
+{
+	//[nameField resignFirstResponder];
+//	[passField resignFirstResponder];
+//	NSString *uname = [NSString stringWithString:nameField.text];
+//	NSString *pword = [NSString stringWithString:passField.text];
+//	
+//	
+//	NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://ecoburneriphone.dynalias.com/login.php?username=%@&password=%@",uname,pword ]];
+//	NSString *jsonData = [[NSString alloc] initWithContentsOfURL:jsonURL];
+//	self.dataDict = [jsonData JSONValue]; 
+//	
+//	NSLog(@"%@",[[self.dataDict valueForKey:@"Record"] valueForKey:@"user_id"]);
+//	
+//	
+//	if ([[[self.dataDict valueForKey:@"Record"] valueForKey:@"user_id"] intValue] == 0)
+//	{
+//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong User ID or Password" message:@"Please check your ID and Password" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//		[alert show];
+//		[alert release];
+//		
+//	}
+//	else 
+//	{
+		[self dismissModalViewControllerAnimated:YES];
+
+
+
+}
+
+#pragma mark -
+#pragma mark text field methods
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[nameField resignFirstResponder];
+	[passField resignFirstResponder];
+	return YES;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+
+@end

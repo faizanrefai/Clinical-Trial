@@ -1,0 +1,24 @@
+//
+//  AvailableClinical.h
+//  ClinicalRecuiter
+//
+//  Created by Hirak on 8/25/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "clinicalDetail.h"
+
+
+@interface AvailableClinical : UIViewController <UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
+{
+	IBOutlet UISearchBar *srchBar;
+	IBOutlet UITableView *tblView;
+	NSMutableArray *arrayNo;
+	NSMutableArray *finalArr;
+}
+
+@property (nonatomic ,retain) IBOutlet UISearchBar *srchBar;
+@property (nonatomic ,retain) IBOutlet UITableView *tblView;
+
+@end
